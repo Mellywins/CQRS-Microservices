@@ -1,0 +1,1 @@
+# CQRS Project Scaffolded sandbox
