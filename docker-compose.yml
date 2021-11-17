@@ -41,6 +41,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
+      - MONGO_INITDB_DATABASE=cqrs
     volumes:
       - mongo_data:/data/db
     ports:
