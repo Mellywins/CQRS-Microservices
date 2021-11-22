@@ -24,14 +24,6 @@ export class UserService {
     return new this.userModel(createUserDto).save();
   }
 
-  findAll() {
-    return `This action returns all user`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
   async update(updateUserDto: UpdateUserDto) {
     return this.userModel.findOneAndUpdate(
       { _id: updateUserDto._id },

@@ -10,15 +10,14 @@ import { ClientProxyFactory, Transport } from '@nestjs/microservices';
     AppService,
     {
       provide: 'WRITE_USER_SERVICE',
-      useFactory: () => {
+      useFactory: () =>
         ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
             host: 'write_ms',
             port: 3000,
           },
-        });
-      },
+        }),
     },
   ],
 })
