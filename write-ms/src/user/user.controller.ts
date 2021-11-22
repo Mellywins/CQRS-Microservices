@@ -13,7 +13,7 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @EventPattern('create_user')
+  @EventPattern('update_user')
   update(updateUserDto: UpdateUserDto) {
     return this.userService.update(updateUserDto);
   }

@@ -39,12 +39,28 @@ export class AppController {
       },
     });
     if (!err) {
-      response.status(HttpStatus.CREATED).send();
+      response.status(HttpStatus.CREATED).send('Entity Created!');
+      return;
     } else throw new BadRequestException('Bad Request');
   }
   @Post('update')
-  async updateUser(@Body() updateUserPayload: UpdateUserDto) {
-    return this.writeUserService.emit('update_user', updateUserPayload);
+  async updateUser(@Body() updateUserPayload: UpdateUserDto, @Res() response) {
+    let err: Error;
+    this.writeUserService.emit('update_user', updateUserPayload).subscribe({
+      error: (e) => {
+        err = e;
+      },
+      complete: () => {
+        Logger.log(
+          `Successfully pushed an update_user event for user: ${updateUserPayload.username} `,
+          'User Update',
+        );
+      },
+    });
+    if (!err) {
+      response.status(HttpStatus.ACCEPTED).send('Entity updated!');
+      return;
+    } else throw new BadRequestException('Bad Request');
   }
   @Get()
   getHello(): string {

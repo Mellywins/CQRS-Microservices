@@ -26,7 +26,7 @@ export class UserService {
 
   async update(updateUserDto: UpdateUserDto) {
     return this.userModel.findOneAndUpdate(
-      { _id: updateUserDto._id },
+      { email: updateUserDto.email },
       updateUserDto,
     );
   }
