@@ -73,6 +73,10 @@ export class AppController {
       .pipe(
         take(1),
         map((v) => {
+          Logger.log(
+            `Successfully sent a get_all_users message`,
+            'Get All Users',
+          );
           return { payload: v, count: v.length };
         }),
       )
@@ -84,23 +88,22 @@ export class AppController {
           throw new HttpException(err.message, 500);
         },
       );
-    // next: (payload: any) => {
-    //   data = payload;
-    //   console.log(payload);
-    // },
-    // error: (e) => {
-    //   err = e;
-    // },
-    // complete: () => {
-    //   Logger.log(
-    //     `Successfully sent a get_all_users message `,
-    //     'Fetch All Users',
-    //   );
-    // },
-    // console.log(data);
-    // if (!err) {
-    //   return data;
-    // } else throw new BadRequestException('Bad Request');
+  }
+  @Get('userByEmail')
+  async getUserByEmail(@Body() payload: { email: string }, @Res() response) {
+    this.readUserService
+      .send('read_user_by_email', payload.email)
+      .pipe(
+        take(1),
+        map((e) => {
+          Logger.log(
+            `Successfully sent a get_user_by_email message`,
+            'Get User By Email',
+          );
+          return e;
+        }),
+      )
+      .subscribe((e) => response.status(HttpStatus.OK).send(e));
   }
   @Get()
   getHello(): string {

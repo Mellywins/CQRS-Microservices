@@ -36,4 +36,23 @@ export class AppService {
     });
     return cleanedData;
   }
+
+  async findUserByEmail(email: string): Promise<User> {
+    const { body } = (await this.elasticService.search({
+      index: 'users',
+      body: {
+        query: {
+          match_phrase_prefix: {
+            email,
+          },
+        },
+      },
+    })) as any;
+    const clearedData = (body.hits.hits as any).map((e) => ({
+      username: e._source.username,
+      password: e._source.password,
+      email: e._source.email,
+    }));
+    return clearedData.length === 0 ? [] : clearedData[0];
+  }
 }
