@@ -20,12 +20,14 @@ export class AppService {
   async findAll(): Promise<User[]> {
     const data = await (this.elasticService.search({
       index: 'users',
+      size: 200,
       body: {
         query: {
           match_all: {},
         },
       },
     }) as unknown as any);
+    console.log(data.body.hits);
     const cleanedData = data.body.hits.hits.map((el) => {
       const payload = el._source;
       return {

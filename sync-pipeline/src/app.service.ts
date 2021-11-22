@@ -7,13 +7,27 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class AppService {
   constructor(private readonly elasticService: ElasticsearchService) {}
   async create(createUserDto: CreateUserDto) {
-    console.log('sync pipeline received creation event')
-    // const result = await this.elasticService.index({
-    //   index: 'users',
-    //   body: {
-    //     ...createUserDto,
-    //   },
-    // });
+    const result = await this.elasticService.index({
+      index: 'users',
+      id: createUserDto.email,
+      body: {
+        ...createUserDto,
+      },
+    });
+    console.log(result);
+    return result;
   }
-  async update(updateUserDto: UpdateUserDto) {}
+  async update(updateUserDto: UpdateUserDto) {
+    const result = await this.elasticService.update({
+      index: 'users',
+      id: updateUserDto.email,
+      body: {
+        doc: {
+          username: updateUserDto.username,
+          password: updateUserDto.password,
+        },
+      },
+    });
+    return result;
+  }
 }
