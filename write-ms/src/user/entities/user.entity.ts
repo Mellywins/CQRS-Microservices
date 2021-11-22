@@ -7,7 +7,6 @@ export type UserDocument = User & Document;
   versionKey: false,
 })
 export class User {
-
   @Prop({ required: true })
   username: string;
 

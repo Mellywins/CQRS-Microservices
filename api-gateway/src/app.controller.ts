@@ -6,6 +6,10 @@ import {
   Inject,
   Post,
   Body,
+  Res,
+  HttpStatus,
+  BadRequestException,
+  Logger,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ClientProxy } from '@nestjs/microservices';
@@ -21,8 +25,22 @@ export class AppController {
   ) {}
 
   @Post('create')
-  async createUser(@Body() createUserPayload: CreateUserDto) {
-    return this.writeUserService.emit('create_user', createUserPayload);
+  async createUser(@Body() createUserPayload: CreateUserDto, @Res() response) {
+    let err: Error;
+    this.writeUserService.emit('create_user', createUserPayload).subscribe({
+      error: (e) => {
+        err = e;
+      },
+      complete: () => {
+        Logger.log(
+          `Successfully pushed a create_user event for user: ${createUserPayload.username} `,
+          'User Creation',
+        );
+      },
+    });
+    if (!err) {
+      response.status(HttpStatus.CREATED).send();
+    } else throw new BadRequestException('Bad Request');
   }
   @Post('update')
   async updateUser(@Body() updateUserPayload: UpdateUserDto) {
