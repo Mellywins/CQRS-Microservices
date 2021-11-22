@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -9,7 +9,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @EventPattern('create_user')
-  create(@Body() createUserDto: CreateUserDto) {
+  create(createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
