@@ -62,6 +62,17 @@ services:
     networks:
       - cqrs_net
 
+  api_gateway:
+    container_name: api_gateway
+    build:
+      context: ./api-gateway
+    volumes:
+      - ./api-gateway:/usr/src/app
+    command: npm run start:dev
+    ports:
+      - 8080:8080
+    networks:
+      - cqrs_net
 
   write_ms:
     container_name: write_microservice
