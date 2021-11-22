@@ -88,6 +88,16 @@ services:
     networks:
       - cqrs_net
 
+  sync_pipeline:
+    container_name: sync_pipeline
+    build:
+      context: ./sync-pipeline
+    volumes:
+      - ./sync-pipeline:/usr/src/app
+    command: npm run start:dev
+    networks:
+      - cqrs_net
+
 volumes:
   mongo_data:
   elasticsearch-data:
