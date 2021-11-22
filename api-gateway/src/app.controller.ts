@@ -22,6 +22,7 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     @Inject('WRITE_USER_SERVICE') private writeUserService: ClientProxy,
+    @Inject('READ_USER_SERVICE') private readUserService: ClientProxy,
   ) {}
 
   @Post('create')
@@ -54,6 +55,26 @@ export class AppController {
         Logger.log(
           `Successfully pushed an update_user event for user: ${updateUserPayload.username} `,
           'User Update',
+        );
+      },
+    });
+    if (!err) {
+      response.status(HttpStatus.ACCEPTED).send('Entity updated!');
+      return;
+    } else throw new BadRequestException('Bad Request');
+  }
+  @Get('allUsers')
+  async getAllUsers(@Res() response) {
+    let err: Error;
+    let data: User[] | null;
+    this.readUserService.send('read_all_users', '').subscribe({
+      error: (e) => {
+        err = e;
+      },
+      complete: () => {
+        Logger.log(
+          `Successfully sent a get_all_users message `,
+          'Fetch All Users',
         );
       },
     });

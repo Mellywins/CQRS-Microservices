@@ -1,4 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
 import { AppService } from './app.service';
 import { User } from './entities/user.entity';
 
@@ -6,8 +7,8 @@ import { User } from './entities/user.entity';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getAllUsers(): User[] | Promise<User[]> {
+  @MessagePattern('read_all_users')
+  async getAllUsers(): Promise<User[]> {
     return this.appService.findAll();
   }
 }

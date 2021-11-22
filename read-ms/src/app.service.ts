@@ -6,7 +6,14 @@ import { User } from './entities/user.entity';
 export class AppService {
   constructor(private readonly elasticService: ElasticsearchService) {}
 
-  findAll(): User[] | Promise<User[]> {
-    return [];
+  async findAll(): Promise<User[]> {
+    return await (this.elasticService.search({
+      index: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+      body: {
+        query: {
+          match_all: {},
+        },
+      },
+    }) as unknown as Promise<User[]>);
   }
 }

@@ -19,6 +19,17 @@ import { ClientProxyFactory, Transport } from '@nestjs/microservices';
           },
         }),
     },
+    {
+      provide: 'READ_USER_SERVICE',
+      useFactory: () =>
+        ClientProxyFactory.create({
+          transport: Transport.TCP,
+          options: {
+            host: 'read_ms',
+            port: 3001,
+          },
+        }),
+    },
   ],
 })
 export class AppModule {}
