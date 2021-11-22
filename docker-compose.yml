@@ -47,6 +47,8 @@ services:
     ports:
       - 27017:27017
     restart: unless-stopped
+    logging:
+      driver: none
     networks:
       - cqrs_net
 
@@ -56,7 +58,6 @@ services:
       context: ./read-ms
     volumes:
       - ./read-ms:/usr/src/app
-      - /usr/src/app/node_modules
     command: npm run start:dev
     networks:
       - cqrs_net
@@ -68,8 +69,9 @@ services:
       context: ./read-ms
     volumes:
       - ./write-ms:/usr/src/app
-      - /usr/src/app/node_modules
     command: npm run start:dev
+    ports:
+      - 3000:3000
     networks:
       - cqrs_net
 

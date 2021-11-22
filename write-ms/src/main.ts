@@ -11,6 +11,10 @@ async function bootstrap() {
         port: 3000
       }
     });
-    app.listen();
+    app.listen().then(e=>{
+      console.log('Microservice listening on port 3000')
+    });
+  // const app = await NestFactory.create(AppModule);
+  // app.listen(3000,()=>console.log('App is listening on port 3000'))
 }
 bootstrap();
