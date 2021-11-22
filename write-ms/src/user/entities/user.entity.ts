@@ -1,27 +1,25 @@
-
-import { Prop, Schema, SchemaFactory, PropOptions } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
 @Schema({
-    versionKey:false
+  versionKey: false,
 })
 export class User {
-
   @Prop()
-  _id:string;
+  _id: string;
 
-  @Prop({required: true})
+  @Prop({ required: true })
   username: string;
 
-  @Prop({required: true})
+  @Prop({ required: true })
   password: string;
 
-  @Prop({required: true})
+  @Prop({ required: true })
   email: string;
 
-  @Prop({default:false})
+  @Prop({ default: false })
   is_confirmed: boolean;
 }
 
