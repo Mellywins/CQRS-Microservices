@@ -3,5 +3,4 @@ export class User {
   email: string;
   password: string;
   is_confirmed: boolean;
-  _id:string;
 }
