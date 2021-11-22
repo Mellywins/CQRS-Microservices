@@ -5,15 +5,35 @@ import { User } from './entities/user.entity';
 @Injectable()
 export class AppService {
   constructor(private readonly elasticService: ElasticsearchService) {}
-
+  async fakeUsers() {
+    for (let i = 0; i < 10; i++) {
+      await this.elasticService.index({
+        index: 'users',
+        body: {
+          username: `oussema200${i}`,
+          password: `${i}`,
+          email: `zouaghi.wow199${i}@gmail.com`,
+        },
+      });
+    }
+  }
   async findAll(): Promise<User[]> {
-    return await (this.elasticService.search({
-      index: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+    const data = await (this.elasticService.search({
+      index: 'users',
       body: {
         query: {
           match_all: {},
         },
       },
-    }) as unknown as Promise<User[]>);
+    }) as unknown as any);
+    const cleanedData = data.body.hits.hits.map((el) => {
+      const payload = el._source;
+      return {
+        username: payload.username,
+        email: payload.email,
+        password: payload.password,
+      };
+    });
+    return cleanedData;
   }
 }

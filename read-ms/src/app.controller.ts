@@ -5,7 +5,9 @@ import { User } from './entities/user.entity';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) {
+    // this.appService.fakeUsers();
+  }
 
   @MessagePattern('read_all_users')
   async getAllUsers(): Promise<User[]> {
