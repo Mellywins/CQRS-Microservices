@@ -26,11 +26,20 @@ export class AppController {
     private readonly appService: AppService,
     @Inject('WRITE_USER_SERVICE') private writeUserService: ClientProxy,
     @Inject('READ_USER_SERVICE') private readUserService: ClientProxy,
+    @Inject('SYNC_SERVICE') private syncService: ClientProxy,
   ) {}
 
   @Post('create')
   async createUser(@Body() createUserPayload: CreateUserDto, @Res() response) {
     let err: Error;
+    this.syncService.emit('create_user', createUserPayload).subscribe({
+      complete: () => {
+        Logger.log(
+          `Successfully pushed a sync event for user ${createUserPayload.email}`,
+          'User Sync',
+        );
+      },
+    });
     this.writeUserService.emit('create_user', createUserPayload).subscribe({
       error: (e) => {
         err = e;
@@ -50,6 +59,14 @@ export class AppController {
   @Post('update')
   async updateUser(@Body() updateUserPayload: UpdateUserDto, @Res() response) {
     let err: Error;
+    this.syncService.emit('update_user', updateUserPayload).subscribe({
+      complete: () => {
+        Logger.log(
+          `Successfully pushed a sync event for user ${updateUserPayload.email}`,
+          'User Sync',
+        );
+      },
+    });
     this.writeUserService.emit('update_user', updateUserPayload).subscribe({
       error: (e) => {
         err = e;

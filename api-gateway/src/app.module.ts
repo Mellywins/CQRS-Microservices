@@ -30,6 +30,17 @@ import { ClientProxyFactory, Transport } from '@nestjs/microservices';
           },
         }),
     },
+    {
+      provide: 'SYNC_SERVICE',
+      useFactory: () =>
+        ClientProxyFactory.create({
+          transport: Transport.TCP,
+          options: {
+            host: 'sync_pipeline',
+            port: 3002,
+          },
+        }),
+    },
   ],
 })
 export class AppModule {}
