@@ -12,10 +12,9 @@ import { ClientProxyFactory, Transport } from '@nestjs/microservices';
       provide: 'WRITE_USER_SERVICE',
       useFactory: () =>
         ClientProxyFactory.create({
-          transport: Transport.TCP,
+          transport: Transport.REDIS,
           options: {
-            host: 'write_ms',
-            port: 3000,
+            url: 'redis://redis:6379',
           },
         }),
     },
@@ -23,10 +22,9 @@ import { ClientProxyFactory, Transport } from '@nestjs/microservices';
       provide: 'READ_USER_SERVICE',
       useFactory: () =>
         ClientProxyFactory.create({
-          transport: Transport.TCP,
+          transport: Transport.REDIS,
           options: {
-            host: 'read_ms',
-            port: 3001,
+            url: 'redis://redis:6379',
           },
         }),
     },
@@ -34,10 +32,9 @@ import { ClientProxyFactory, Transport } from '@nestjs/microservices';
       provide: 'SYNC_SERVICE',
       useFactory: () =>
         ClientProxyFactory.create({
-          transport: Transport.TCP,
+          transport: Transport.REDIS,
           options: {
-            host: 'sync_pipeline',
-            port: 3002,
+            url: 'redis://redis:6379',
           },
         }),
     },
