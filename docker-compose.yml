@@ -17,6 +17,8 @@ services:
       - IPC_LOCK
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
+    logging:
+      driver: none
     ports:
       - 9200:9200
       - 9300:9300

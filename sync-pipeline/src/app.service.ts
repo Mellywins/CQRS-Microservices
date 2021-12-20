@@ -14,7 +14,6 @@ export class AppService {
         ...createUserDto,
       },
     });
-    console.log(result);
     return result;
   }
   async update(updateUserDto: UpdateUserDto) {
