@@ -81,7 +81,7 @@ services:
   write_ms:
     container_name: write_microservice
     build:
-      context: ./read-ms
+      context: ./write-ms
     volumes:
       - ./write-ms:/usr/src/app
     command: npm run start:dev
